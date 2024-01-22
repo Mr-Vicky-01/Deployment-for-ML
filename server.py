@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 import tensorflow as tf
-from tensorflow.keras.moodels import load_model
+from tensorflow.keras.models import load_model
 from PIL import Image
 from io import BytesIO
 from fastapi import Request
