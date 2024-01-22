@@ -10,6 +10,7 @@ import tensorflow as tf
 from PIL import Image
 from io import BytesIO
 from fastapi import Request
+import os
 
 # Initializing The App
 app = FastAPI()
@@ -42,7 +43,7 @@ templates1 = Jinja2Templates(directory="models")
 # DL or Ml Models (Loading)..
 sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
 weather_model = tf.keras.models.load_model('models/weather/weather_prediction_v2.h5')
-flower_model = tf.keras.models.load_model('models/flower/flower_prediction.h5')
+flower_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
 yoga_pose_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
 mammals_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
 card_model = tf.keras.models.load_model('models/card/card_model_v2.h5')
@@ -157,9 +158,13 @@ async def read_bird(request: Request):
 
 # Function Converting Img --> Array
 def read_file_as_image(data):
-    img = Image.open(BytesIO(data)).resize((224, 224))
-    img_array = tf.keras.preprocessing.image.img_to_array(img)
-    return img_array
+    try:
+        img = Image.open(BytesIO(data)).resize((224, 224))
+        img_array = tf.keras.preprocessing.image.img_to_array(img)
+        return img_array
+    except Exception as e:
+        print(f"Error processing image: {e}")
+        return None
 
 
 # Endpoint for Sports Ball Model
@@ -325,4 +330,4 @@ async def predict_bird(file: UploadFile = File(...)):
 
 # Run The Server In Localhost via Uvicorn
 if __name__ == '__main__':
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
