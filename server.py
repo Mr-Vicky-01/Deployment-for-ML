@@ -173,6 +173,10 @@ async def predict_sports_ball(file: UploadFile = File(...)):
     print("Sports Ball Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = sports_ball_model.predict(img)
@@ -191,6 +195,10 @@ async def predict_flower(file: UploadFile = File(...)):
     print("Flower Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = flower_model.predict(img)
@@ -209,6 +217,10 @@ async def weather(file: UploadFile = File(...)):
     print("Weather Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = weather_model.predict(img)
@@ -227,6 +239,10 @@ async def predict_yoga_pose(file: UploadFile = File(...)):
     print("Yoga Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = yoga_pose_model.predict(img)
@@ -245,6 +261,10 @@ async def predict_mammals(file: UploadFile = File(...)):
     print("Mammals Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = mammals_model.predict(img)
@@ -263,6 +283,10 @@ async def predict_card(file: UploadFile = File(...)):
     print("card Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = card_model.predict(img)
@@ -281,6 +305,10 @@ async def predict_dog_breed(file: UploadFile = File(...)):
     print("Dog Breed Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = dog_breed_model.predict(img)
@@ -299,6 +327,10 @@ async def predict_chess(file: UploadFile = File(...)):
     print("Chess Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = chess_model.predict(img)
@@ -317,6 +349,10 @@ async def predict_bird(file: UploadFile = File(...)):
     print("bird Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
     img = np.expand_dims(img, axis=0)
 
     predicted = bird_model.predict(img)
