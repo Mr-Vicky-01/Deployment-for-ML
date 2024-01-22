@@ -7,6 +7,7 @@ from fastapi.templating import Jinja2Templates
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 import tensorflow as tf
+from tensorflow.keras.moodels import load_model
 from PIL import Image
 from io import BytesIO
 from fastapi import Request
@@ -156,85 +157,214 @@ def read_file_as_image(data):
         print(f"Error processing image: {e}")
         return None
 
-# Lazy loading of models
-def load_model(model_path):
-    return tf.keras.models.load_model(model_path)
-
-# Define models
-sports_ball_model = load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-flower_model = load_model('models/mammals/Mammals_predictionv1.h5')
-weather_model = load_model('models/weather/weather_prediction_v2.h5')
-yoga_pose_model = load_model('models/yoga_pose/yoga-modelv2.h5')
-mammals_model = load_model('models/mammals/Mammals_predictionv1.h5')
-card_model = load_model('models/card/card_model_v2.h5')
-dog_breed_model = load_model("models/dog_breed/dog_breedv3.h5")
-chess_model = load_model("models/chess/chess_prediction_v4.h5")
-bird_model = load_model("models/bird/bird_modelV2.h5")
-
-# Reuse models in prediction endpoints
-async def predict(model, classes, file):
-    print(f"{model} Prediction endpoint called")
-    file.file.seek(0)
-    img = read_file_as_image(await file.read())
-    if img is None:
-        return {'error': 'Invalid image file'}
-
-    img = np.expand_dims(img, axis=0)
-    predicted = model.predict(img)
-    result = classes[np.argmax(predicted[0])]
-    confidence = np.max(predicted[0])
-
-    return {'class': result, 'confidence': round(confidence * 100, 1)}
-
 
 # Endpoint for Sports Ball Model
 @app.post("/predict_sports_ball")
 async def predict_sports_ball(file: UploadFile = File(...)):
-    return await predict(sports_ball_model, sports_ball_class, file)
+    model = load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
+    print("Sports Ball Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
 
-# Endpoint for Flower Model
+    predicted = model.predict(img)
+    result = sports_ball_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
+
+# EndPoint For Flower Model
 @app.post("/predict_flower")
 async def predict_flower(file: UploadFile = File(...)):
-    return await predict(flower_model, flower_class, file)
+    model = load_model('models/mammals/Mammals_predictionv1.h5')
+    print("Flower Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = flower_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
 
 # Endpoint for Weather Model
 @app.post("/predict_weather")
 async def weather(file: UploadFile = File(...)):
-    return await predict(weather_model, weather_class, file)
+    model = load_model('models/weather/weather_prediction_v2.h5')
+    print("Weather Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = weather_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
 
 # Endpoint for Yoga Pose Model
 @app.post("/predict_yoga_pose")
 async def predict_yoga_pose(file: UploadFile = File(...)):
-    return await predict(yoga_pose_model, mammals, file)
-    
+    model = load_model('models/yoga_pose/yoga-modelv2.h5')
+    print("Yoga Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = yoga_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
+
 # Endpoint for Mammals Model
 @app.post("/predict_mammals")
 async def predict_mammals(file: UploadFile = File(...)):
-    return await predict(mammals_model, mammals_class, file)
+    model = load_model('models/mammals/Mammals_predictionv1.h5')
+    print("Mammals Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = mammals_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
 
 
 # Endpoint for card Model
 @app.post("/predict_card")
 async def predict_card(file: UploadFile = File(...)):
-    return await predict(card_model, card_class, file)
+    model = load_model('models/card/card_model_v2.h5')
+    print("card Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = cards_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
 
 # Endpoint for Dog Breed Model
 @app.post("/predict_dog_breed")
 async def predict_dog_breed(file: UploadFile = File(...)):
-    return await predict(dog_breed_model, dog_breed_class, file)
+    model = load_model("models/dog_breed/dog_breedv3.h5")
+    print("Dog Breed Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = dog_breed_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
 
 
 # Endpoint for chess Model
 @app.post("/predict_chess")
 async def predict_chess(file: UploadFile = File(...)):
-    return await predict(chess_model, chess_class, file)
+    model = load_model("models/chess/chess_prediction_v4.h5")
+    print("Chess Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = chess_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
 
 
 # Endpoint for bird Model
 @app.post("/predict_bird")
 async def predict_bird(file: UploadFile = File(...)):
-    return await predict(bird_model, bird_class, file)
+    model = load_model("models/bird/bird_modelV2.h5")
+    print("bird Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    if img is None:
+        return {
+            'error': 'Invalid image file'
+        }
+    img = np.expand_dims(img, axis=0)
+
+    predicted = model.predict(img)
+    result = bird_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
 
 # Run The Server In Localhost via Uvicorn
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    
