@@ -40,9 +40,6 @@ app.mount("/models/bird/static", StaticFiles(directory='models/bird/static'), na
 templates = Jinja2Templates(directory="frontend")
 templates1 = Jinja2Templates(directory="models")
 
-# DL or Ml Models (Loading)..
-sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-
 
 # classes For All Models
 yoga_class = ['Bridge Pose', 'Child-Pose', 'CobraPose',
@@ -163,6 +160,7 @@ def read_file_as_image(data):
 # Endpoint for Sports Ball Model
 @app.post("/predict_sports_ball")
 async def predict_sports_ball(file: UploadFile = File(...)):
+    sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
     print("Sports Ball Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -185,6 +183,7 @@ async def predict_sports_ball(file: UploadFile = File(...)):
 # EndPoint For Flower Model
 @app.post("/predict_flower")
 async def predict_flower(file: UploadFile = File(...)):
+    flower_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
     print("Flower Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -207,6 +206,7 @@ async def predict_flower(file: UploadFile = File(...)):
 # Endpoint for Weather Model
 @app.post("/predict_weather")
 async def weather(file: UploadFile = File(...)):
+    weather_model = tf.keras.models.load_model('models/weather/weather_prediction_v2.h5')
     print("Weather Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -229,6 +229,7 @@ async def weather(file: UploadFile = File(...)):
 # Endpoint for Yoga Pose Model
 @app.post("/predict_yoga_pose")
 async def predict_yoga_pose(file: UploadFile = File(...)):
+    yoga_pose_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
     print("Yoga Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -251,6 +252,7 @@ async def predict_yoga_pose(file: UploadFile = File(...)):
 # Endpoint for Mammals Model
 @app.post("/predict_mammals")
 async def predict_mammals(file: UploadFile = File(...)):
+    mammals_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
     print("Mammals Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -273,6 +275,7 @@ async def predict_mammals(file: UploadFile = File(...)):
 # Endpoint for card Model
 @app.post("/predict_card")
 async def predict_card(file: UploadFile = File(...)):
+    card_model = tf.keras.models.load_model('models/card/card_model_v2.h5')
     print("card Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -295,6 +298,7 @@ async def predict_card(file: UploadFile = File(...)):
 # Endpoint for Dog Breed Model
 @app.post("/predict_dog_breed")
 async def predict_dog_breed(file: UploadFile = File(...)):
+    dog_breed_model = tf.keras.models.load_model("models/dog_breed/dog_breedv3.h5")
     print("Dog Breed Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -317,6 +321,7 @@ async def predict_dog_breed(file: UploadFile = File(...)):
 # Endpoint for chess Model
 @app.post("/predict_chess")
 async def predict_chess(file: UploadFile = File(...)):
+    chess_model = tf.keras.models.load_model("models/chess/chess_prediction_v4.h5")
     print("Chess Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -339,6 +344,7 @@ async def predict_chess(file: UploadFile = File(...)):
 # Endpoint for bird Model
 @app.post("/predict_bird")
 async def predict_bird(file: UploadFile = File(...)):
+    bird_model = tf.keras.models.load_model("models/bird/bird_modelV2.h5")
     print("bird Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
@@ -359,4 +365,4 @@ async def predict_bird(file: UploadFile = File(...)):
 
 # Run The Server In Localhost via Uvicorn
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
+    uvicorn.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
