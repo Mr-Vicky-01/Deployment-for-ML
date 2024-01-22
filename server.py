@@ -42,14 +42,7 @@ templates1 = Jinja2Templates(directory="models")
 
 # DL or Ml Models (Loading)..
 sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-weather_model = tf.keras.models.load_model('models/weather/weather_prediction_v2.h5')
-flower_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
-yoga_pose_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
-mammals_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
-card_model = tf.keras.models.load_model('models/card/card_model_v2.h5')
-dog_breed_model = tf.keras.models.load_model("models/dog_breed/dog_breedv3.h5")
-chess_model = tf.keras.models.load_model("models/chess/chess_prediction_v4.h5")
-bird_model = tf.keras.models.load_model("models/bird/bird_modelV2.h5")
+
 
 # classes For All Models
 yoga_class = ['Bridge Pose', 'Child-Pose', 'CobraPose',
