@@ -19,8 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Use Promise.race to handle the fetch and timeout promises
-        Promise.race([fetch("/predict_mammals", { method: "POST", body: formData }), timeoutPromise])
-            .then(response => response.json())
+        Promise.race([
+            fetch("/predict_mammals", { method: "POST", body: formData }),
+            timeoutPromise
+        ])
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 // Hide loading icon and reset button text
                 loadingIcon.style.display = "none";
@@ -47,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 loadingIcon.style.display = "none";
                 predictButton.innerHTML = 'Predict';
 
-                console.error("Error:", error);
+                console.error("Error during fetch:", error);
             });
     });
 
