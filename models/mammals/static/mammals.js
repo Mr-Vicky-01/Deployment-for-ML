@@ -12,39 +12,43 @@ document.addEventListener("DOMContentLoaded", function () {
         predictButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Predicting...';
 
         const formData = new FormData(form);
-        fetch("/predict_mammals", {
-            method: "POST",
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Hide loading icon and reset button text
-            loadingIcon.style.display = "none";
-            predictButton.innerHTML = 'Predict';
 
-            displayPredictionResult(data);
-
-            // Set a 100 seconds countdown timer on the predict button
-            let countdown = 100;
-            predictButton.disabled = true;
-
-            const countdownInterval = setInterval(function () {
-                predictButton.innerHTML = `Wait for ${countdown--}`;
-
-                if (countdown < 0) {
-                    clearInterval(countdownInterval);
-                    predictButton.disabled = false;
-                    predictButton.innerHTML = 'Predict';
-                }
-            }, 1000);
-        })
-        .catch(error => {
-            // Hide loading icon in case of error and reset button text
-            loadingIcon.style.display = "none";
-            predictButton.innerHTML = 'Predict';
-
-            console.error("Error:", error);
+        // Set a timeout for the fetch request
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Request timed out')), 120000); // 2 minutes timeout
         });
+
+        // Use Promise.race to handle the fetch and timeout promises
+        Promise.race([fetch("/predict_mammals", { method: "POST", body: formData }), timeoutPromise])
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading icon and reset button text
+                loadingIcon.style.display = "none";
+                predictButton.innerHTML = 'Predict';
+
+                displayPredictionResult(data);
+
+                // Set a 100 seconds countdown timer on the predict button
+                let countdown = 100;
+                predictButton.disabled = true;
+
+                const countdownInterval = setInterval(function () {
+                    predictButton.innerHTML = `Wait for ${countdown--}`;
+
+                    if (countdown < 0) {
+                        clearInterval(countdownInterval);
+                        predictButton.disabled = false;
+                        predictButton.innerHTML = 'Predict';
+                    }
+                }, 1000);
+            })
+            .catch(error => {
+                // Hide loading icon in case of error and reset button text
+                loadingIcon.style.display = "none";
+                predictButton.innerHTML = 'Predict';
+
+                console.error("Error:", error);
+            });
     });
 
     // Image preview on file input change
